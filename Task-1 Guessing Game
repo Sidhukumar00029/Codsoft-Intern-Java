@@ -1,0 +1,49 @@
+import javax.swing.*;
+
+public class GuessingGame
+ {
+    public static void main(String[] args) {
+        int totalRounds = 3;
+        int maxAttempts = 5;
+        int round = 1;
+        int totalScore = 0;
+
+        while (round <= totalRounds) {
+            int computerNumber = (int) (Math.random() * 100 + 1);
+            int userAnswer = 0;
+            int count = 1;
+
+            while (userAnswer != computerNumber && count <= maxAttempts) {
+                String response = JOptionPane.showInputDialog(null,
+                        "Round " + round + " - Enter a guess between 1 and 100", "Guessing Game", 3);
+                userAnswer = Integer.parseInt(response);
+                JOptionPane.showMessageDialog(null, "" + determineGuess(userAnswer, computerNumber, count));
+                count++;
+            }
+
+            int roundScore = maxAttempts - count + 1;
+            totalScore += roundScore;
+
+            JOptionPane.showMessageDialog(null, "Round " + round + " ended.\n" +
+                    "Correct answer: " + computerNumber + "\n" +
+                    "Your score for this round: " + roundScore + "\n" +
+                    "Total score: " + totalScore);
+
+            round++;
+        }
+        JOptionPane.showMessageDialog(null, "Game Over!\n" +
+                "Total score: " + totalScore);
+    }
+
+    public static String determineGuess(int userAnswer, int computerNumber, int count) {
+        if (userAnswer <= 0 || userAnswer > 100) {
+            return "Your guess is invalid";
+        } else if (userAnswer == computerNumber) {
+            return "Correct!\nTotal Guesses: " + count;
+        } else if (userAnswer > computerNumber) {
+            return "Your guess is too high, try again.\nTry Number: " + count;
+        } else {
+            return "Your guess is too low, try again.\nTry Number: " + count;
+        }
+    }
+}
